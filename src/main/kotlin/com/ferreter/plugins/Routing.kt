@@ -8,6 +8,16 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
+    handleError()
+
+    routing {
+        get("/") {
+            call.respond(Response(status = "OK"))
+        }
+    }
+}
+
+private fun Application.handleError() {
     install(StatusPages) {
         exception<Throwable> { call, error ->
             call.respondText(
@@ -15,12 +25,6 @@ fun Application.configureRouting() {
                 contentType = ContentType.Text.Plain,
                 status = HttpStatusCode.InternalServerError,
             )
-        }
-    }
-
-    routing {
-        get("/") {
-            call.respond(Response(status = "OK"))
         }
     }
 }
