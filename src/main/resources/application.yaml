@@ -1,4 +1,5 @@
 ktor:
+    environment: $ALPHA_VANTAGE_API_KEY
     application:
         modules:
             - com.ferreter.ApplicationKt.module
