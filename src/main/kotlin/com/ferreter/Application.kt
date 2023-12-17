@@ -2,6 +2,7 @@ package com.ferreter
 
 import com.ferreter.plugins.configureRouting
 import com.ferreter.plugins.configureSerialization
+import com.ferreter.plugins.configureStatusPages
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -10,5 +11,6 @@ fun main(args: Array<String>) {
 
 fun Application.module() {
     configureSerialization()
+    configureStatusPages()
     configureRouting()
 }
