@@ -7,6 +7,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 
 class AlphaVantageApiImpl : AlphaVantageApi {
     override suspend fun getQuote(
@@ -15,7 +16,13 @@ class AlphaVantageApiImpl : AlphaVantageApi {
     ): AlphaVantageQuote {
         val httpClient = HttpClient {
             install(ContentNegotiation) {
-                json()
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    }
+                )
             }
         }
         val response = httpClient.get {
@@ -23,13 +30,13 @@ class AlphaVantageApiImpl : AlphaVantageApi {
                 protocol = URLProtocol.HTTPS
                 host = ALPHA_VANTAGE_URL
                 path("query")
-                parameters.append(name = "function", value = "GLOBAL_QUOTES")
+                parameters.append(name = "function", value = "GLOBAL_QUOTE")
                 parameters.append(name = "symbol", value = symbol)
                 parameters.append(name = "apikey", value = apiKey)
             }
-        }.body<AlphaVantageQuote>()
+        }
         httpClient.close()
-        return response
+        return response.body<AlphaVantageQuote>()
     }
 }
 
