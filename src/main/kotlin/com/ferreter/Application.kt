@@ -1,5 +1,6 @@
 package com.ferreter
 
+import com.ferreter.di.configureKoin
 import com.ferreter.plugins.configureRouting
 import com.ferreter.plugins.configureSerialization
 import com.ferreter.plugins.configureStatusPages
@@ -13,4 +14,5 @@ fun Application.module() {
     configureSerialization()
     configureStatusPages()
     configureRouting()
+    configureKoin()
 }
