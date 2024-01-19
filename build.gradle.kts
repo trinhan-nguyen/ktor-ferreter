@@ -37,6 +37,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
     implementation("io.insert-koin:koin-ktor:$koinVersion")
+    implementation("io.insert-koin:koin-test:$koinVersion")
     implementation("io.insert-koin:koin-logger-slf4j:$koinVersion")
 
     implementation("io.ktor:ktor-server-core-jvm")
