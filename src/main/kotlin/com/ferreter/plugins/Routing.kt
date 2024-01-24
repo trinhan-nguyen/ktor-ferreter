@@ -1,6 +1,5 @@
 package com.ferreter.plugins
 
-import com.ferreter.Response
 import com.ferreter.client.api.AlphaVantageApi
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -18,7 +17,7 @@ fun Application.configureRouting(
                     apiKey = apiKey,
                 )
                 call.respond(quote)
-            } ?: call.respond(Response("Failed to get API key!"))
+            } ?: call.respond("Failed to get the API key!")
         }
     }
 }
