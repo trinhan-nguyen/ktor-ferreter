@@ -1,6 +1,7 @@
 package com.ferreter.client.api
 
 import com.ferreter.client.models.AlphaVantageQuote
+import com.ferreter.client.models.SimpleStockQuote
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -9,11 +10,13 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
-class AlphaVantageApiImpl : AlphaVantageApi {
+class AlphaVantageApiImpl(
+    private val alphaVantageQuoteToSimpleStockQuoteMapper: AlphaVantageQuoteToSimpleStockQuoteMapper,
+) : AlphaVantageApi {
     override suspend fun getQuote(
         symbol: String,
         apiKey: String,
-    ): AlphaVantageQuote {
+    ): SimpleStockQuote {
         val httpClient = HttpClient {
             install(ContentNegotiation) {
                 json(
@@ -36,7 +39,10 @@ class AlphaVantageApiImpl : AlphaVantageApi {
             }
         }
         httpClient.close()
-        return response.body<AlphaVantageQuote>()
+
+        return alphaVantageQuoteToSimpleStockQuoteMapper.map(
+            quote = response.body<AlphaVantageQuote>(),
+        )
     }
 }
 
