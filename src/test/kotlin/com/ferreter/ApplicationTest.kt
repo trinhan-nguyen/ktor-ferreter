@@ -24,6 +24,14 @@ import kotlin.test.assertEquals
 class ApplicationTest : KoinTest {
     private lateinit var api: AlphaVantageApi
 
+    private val apiKey = "apiKey"
+    private val expectedQuote = SimpleStockQuote(
+        symbol = "symbol",
+        price = 69.96,
+        change = 34.98,
+        changePercent = "100%",
+    )
+
     @BeforeTest
     fun setUp() {
         api = mock()
@@ -44,13 +52,6 @@ class ApplicationTest : KoinTest {
     @Test
     fun `when the api returns stock data, then return the corresponding simplified quote`() = testApplication {
         // Arrange
-        val apiKey = "apiKey"
-        val expectedQuote = SimpleStockQuote(
-            symbol = "symbol",
-            price = 69.96,
-            change = 34.98,
-            changePercent = "100%",
-        )
         whenever(api.getQuote(symbol = any(), apiKey = eq(apiKey)))
             .thenReturn(expectedQuote)
         application {
@@ -79,13 +80,6 @@ class ApplicationTest : KoinTest {
     @Test
     fun `when the api key is not provided, then return a corresponding error message`() = testApplication {
         // Arrange
-        val apiKey = "apiKey"
-        val expectedQuote = SimpleStockQuote(
-            symbol = "symbol",
-            price = 69.96,
-            change = 34.98,
-            changePercent = "100%",
-        )
         whenever(api.getQuote(symbol = any(), apiKey = eq(apiKey)))
             .thenReturn(expectedQuote)
         application {
