@@ -75,4 +75,37 @@ class ApplicationTest : KoinTest {
             actual = actualQuote,
         )
     }
+
+    @Test
+    fun `when the api key is not provided, then return a corresponding error message`() = testApplication {
+        // Arrange
+        val apiKey = "apiKey"
+        val expectedQuote = SimpleStockQuote(
+            symbol = "symbol",
+            price = 69.96,
+            change = 34.98,
+            changePercent = "100%",
+        )
+        whenever(api.getQuote(symbol = any(), apiKey = eq(apiKey)))
+            .thenReturn(expectedQuote)
+        application {
+            module(isProduction = false)
+        }
+        environment {
+            config = MapApplicationConfig()
+        }
+
+        // Act
+        val response = client.get("/")
+
+        // Assert
+        assertEquals(
+            expected = HttpStatusCode.OK,
+            actual = response.status,
+        )
+        assertEquals(
+            expected = "Failed to get the API key!",
+            actual = response.bodyAsText(),
+        )
+    }
 }
