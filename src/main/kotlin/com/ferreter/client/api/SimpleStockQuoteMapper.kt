@@ -3,11 +3,11 @@ package com.ferreter.client.api
 import com.ferreter.client.models.AlphaVantageQuote
 import com.ferreter.client.models.SimpleStockQuote
 
-interface AlphaVantageQuoteToSimpleStockQuoteMapper {
+interface SimpleStockQuoteMapper {
     fun map(quote: AlphaVantageQuote): SimpleStockQuote
 }
 
-class AlphaVantageQuoteToSimpleStockQuoteMapperImpl : AlphaVantageQuoteToSimpleStockQuoteMapper {
+class SimpleStockQuoteMapperImpl : SimpleStockQuoteMapper {
     override fun map(quote: AlphaVantageQuote): SimpleStockQuote {
         val globalQuote = quote.globalQuote
         return SimpleStockQuote(

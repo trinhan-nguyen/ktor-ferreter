@@ -11,7 +11,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 class AlphaVantageApiImpl(
-    private val alphaVantageQuoteToSimpleStockQuoteMapper: AlphaVantageQuoteToSimpleStockQuoteMapper,
+    private val simpleStockQuoteMapper: SimpleStockQuoteMapper,
 ) : AlphaVantageApi {
     override suspend fun getQuote(
         symbol: String,
@@ -40,7 +40,7 @@ class AlphaVantageApiImpl(
         }
         httpClient.close()
 
-        return alphaVantageQuoteToSimpleStockQuoteMapper.map(
+        return simpleStockQuoteMapper.map(
             quote = response.body<AlphaVantageQuote>(),
         )
     }
