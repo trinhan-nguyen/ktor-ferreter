@@ -12,10 +12,13 @@ fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
 }
 
-fun Application.module() {
+fun Application.module(isProduction: Boolean = true) {
+    if (isProduction) {
+        configureKoin()
+    }
+
     configureSerialization()
     configureStatusPages()
-    configureKoin()
 
     val alphaVantageApi by inject<AlphaVantageApi>()
     configureRouting(alphaVantageApi = alphaVantageApi)
