@@ -12,23 +12,23 @@ data class AlphaVantageQuote(
 @Serializable
 data class GlobalQuote(
     @SerialName("01. symbol")
-    val symbol: String,
+    val symbol: String? = null,
     @SerialName("02. open")
-    val open: Double,
+    val open: Double? = null,
     @SerialName("03. high")
-    val high: Double,
+    val high: Double? = null,
     @SerialName("04. low")
-    val low: Double,
+    val low: Double? = null,
     @SerialName("05. price")
-    val price: Double,
+    val price: Double? = null,
     @SerialName("06. volume")
-    val volume: Long,
+    val volume: Long? = null,
     @SerialName("07. latest trading day")
-    val latestTradingDay: String,
+    val latestTradingDay: String? = null,
     @SerialName("08. previous close")
-    val previousClose: Double,
+    val previousClose: Double? = null,
     @SerialName("09. change")
-    val change: Double,
+    val change: Double? = null,
     @SerialName("10. change percent")
-    val changePercent: String,
+    val changePercent: String? = null,
 )
