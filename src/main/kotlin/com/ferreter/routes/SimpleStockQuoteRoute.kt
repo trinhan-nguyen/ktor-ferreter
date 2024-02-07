@@ -9,13 +9,18 @@ fun Route.simpleStockQuoteRoute(
     apiKey: String?,
     alphaVantageApi: AlphaVantageApi,
 ) {
-    get("/quote") {
-        apiKey?.let {
+    get("/quote/{$SYMBOL_PARAM}") {
+        val tickerSymbol = call.parameters[SYMBOL_PARAM]
+        if (apiKey != null && tickerSymbol != null) {
             val quote = alphaVantageApi.getQuote(
-                symbol = "IBM",
+                symbol = tickerSymbol,
                 apiKey = apiKey,
             )
             call.respond(quote)
-        } ?: call.respond("Failed to get the API key!")
+        } else {
+            call.respond("Failed to get the API key!")
+        }
     }
 }
+
+private const val SYMBOL_PARAM = "symbol"
