@@ -1,6 +1,7 @@
 package com.ferreter.routes
 
 import com.ferreter.client.api.AlphaVantageApi
+import com.ferreter.client.models.ErrorMessage
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -18,7 +19,9 @@ fun Route.simpleStockQuoteRoute(
             )
             call.respond(quote)
         } else {
-            call.respond("Failed to get the API key!")
+            call.respond(
+                ErrorMessage(errorMessage = "Failed to get the API key!")
+            )
         }
     }
 }
