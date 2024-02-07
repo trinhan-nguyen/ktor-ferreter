@@ -63,7 +63,7 @@ class ApplicationTest : KoinTest {
         val json = Json { prettyPrint = true }
 
         // Act
-        val response = client.get("/")
+        val response = client.get("/quote")
         val actualQuote = json.decodeFromString<SimpleStockQuote>(response.bodyAsText())
 
         // Assert
@@ -90,7 +90,7 @@ class ApplicationTest : KoinTest {
         }
 
         // Act
-        val response = client.get("/")
+        val response = client.get("/quote")
 
         // Assert
         assertEquals(
