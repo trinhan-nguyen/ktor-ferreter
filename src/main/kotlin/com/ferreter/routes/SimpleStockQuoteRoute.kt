@@ -12,17 +12,19 @@ fun Route.simpleStockQuoteRoute(
 ) {
     get("/quote/{$SYMBOL_PARAM}") {
         val tickerSymbol = call.parameters[SYMBOL_PARAM]
-        if (apiKey != null && tickerSymbol != null) {
-            val quote = alphaVantageApi.getQuote(
-                symbol = tickerSymbol,
-                apiKey = apiKey,
+        apiKey?.let {
+            tickerSymbol?.let {
+                val quote = alphaVantageApi.getQuote(
+                    symbol = tickerSymbol,
+                    apiKey = apiKey,
+                )
+                call.respond(quote)
+            } ?: call.respond(
+                ErrorMessage(errorMessage = "Failed to get the ticker symbol!")
             )
-            call.respond(quote)
-        } else {
-            call.respond(
-                ErrorMessage(errorMessage = "Failed to get the API key!")
-            )
-        }
+        } ?: call.respond(
+            ErrorMessage(errorMessage = "Failed to get the API key!")
+        )
     }
 }
 
