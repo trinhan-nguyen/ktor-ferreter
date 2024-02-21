@@ -12,7 +12,6 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
-import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -52,7 +51,8 @@ class ApplicationTest : KoinTest {
     @Test
     fun `when the api returns stock data, then return the corresponding simplified quote`() = testApplication {
         // Arrange
-        whenever(api.getQuote(symbol = any(), apiKey = eq(apiKey)))
+        val tickerSymbol = "tickerSymbol"
+        whenever(api.getQuote(symbol = eq(tickerSymbol), apiKey = eq(apiKey)))
             .thenReturn(expectedQuote)
         application {
             module(isProduction = false)
@@ -63,7 +63,7 @@ class ApplicationTest : KoinTest {
         val json = Json { prettyPrint = true }
 
         // Act
-        val response = client.get("/")
+        val response = client.get("/quote/$tickerSymbol")
         val actualQuote = json.decodeFromString<SimpleStockQuote>(response.bodyAsText())
 
         // Assert
@@ -80,7 +80,8 @@ class ApplicationTest : KoinTest {
     @Test
     fun `when the api key is not provided, then return a corresponding error message`() = testApplication {
         // Arrange
-        whenever(api.getQuote(symbol = any(), apiKey = eq(apiKey)))
+        val tickerSymbol = "tickerSymbol"
+        whenever(api.getQuote(symbol = eq(tickerSymbol), apiKey = eq(apiKey)))
             .thenReturn(expectedQuote)
         application {
             module(isProduction = false)
@@ -90,7 +91,7 @@ class ApplicationTest : KoinTest {
         }
 
         // Act
-        val response = client.get("/")
+        val response = client.get("/quote/$tickerSymbol")
 
         // Assert
         assertEquals(
