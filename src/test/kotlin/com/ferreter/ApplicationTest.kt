@@ -1,6 +1,7 @@
 package com.ferreter
 
 import com.ferreter.client.api.AlphaVantageApi
+import com.ferreter.client.models.ErrorMessage
 import com.ferreter.client.models.SimpleStockQuote
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -89,9 +90,11 @@ class ApplicationTest : KoinTest {
         environment {
             config = MapApplicationConfig()
         }
+        val json = Json { prettyPrint = true }
 
         // Act
         val response = client.get("/quote/$tickerSymbol")
+        val errorMessage = json.decodeFromString<ErrorMessage>(response.bodyAsText())
 
         // Assert
         assertEquals(
@@ -99,8 +102,8 @@ class ApplicationTest : KoinTest {
             actual = response.status,
         )
         assertEquals(
-            expected = "Failed to get the API key!",
-            actual = response.bodyAsText(),
+            expected = ErrorMessage(errorMessage = "Failed to get the API key!"),
+            actual = errorMessage,
         )
     }
 }
